@@ -28,44 +28,44 @@ import TodoFooter from './components/TodoFooter.vue'
 // });
 
 export default {
-    data() {
-      return {
-        todoItems: []
-      }
+  data() {
+    return {
+      todoItems: []
+    }
+  },
+  methods: {
+    addOneItem(todoItem) {
+      const obj = {completed: false, item: todoItem};
+      localStorage.setItem(todoItem, JSON.stringify(obj));
+      this.todoItems.push(obj);
     },
-    methods: {
-      addOneItem(todoItem) {
-        const obj = {completed: false, item: todoItem};
-        localStorage.setItem(todoItem, JSON.stringify(obj));
-        this.todoItems.push(obj);
-      },
-      removeOneItem(todoItem, index) {
-        localStorage.removeItem(todoItem.item);
-        this.todoItems.splice(index, 1);
-      },
-      toggleOneItem(todoItem, index) {
-        // todoItem.completed = !todoItem.completed;
-        this.todoItems[index].completed = !this.todoItems[index].completed;
-        // 로컬 스토리지에 데이터를 갱신
-        localStorage.removeItem(todoItem.item)
-        localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-      },
-      clearAllItem() {
-        localStorage.clear();
-        this.todoItems = [];
-      }
+    removeOneItem(todoItem, index) {
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1);
     },
-    created() {
-      // console.log('created');
-      if(localStorage.length > 0) {
-          for (let i = 0; i < localStorage.length; i++) {
-              if(localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-                  // this.todoItems.push(localStorage.key(i));
-                  this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-              }
-              // console.log(localStorage.key(i));
-          }
-      }
+    toggleOneItem(todoItem, index) {
+      // todoItem.completed = !todoItem.completed;
+      this.todoItems[index].completed = !this.todoItems[index].completed;
+      // 로컬 스토리지에 데이터를 갱신
+      localStorage.removeItem(todoItem.item)
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+    clearAllItem() {
+      localStorage.clear();
+      this.todoItems = [];
+    }
+  },
+  created() {
+    // console.log('created');
+    if(localStorage.length > 0) {
+        for (let i = 0; i < localStorage.length; i++) {
+            if(localStorage.key(i) !== 'loglevel:webpack-dev-server') {
+                // this.todoItems.push(localStorage.key(i));
+                this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+            }
+            // console.log(localStorage.key(i));
+        }
+    }
   },
   components: {
     // 컴포넌트 태크명: 컴포넌트 내용
