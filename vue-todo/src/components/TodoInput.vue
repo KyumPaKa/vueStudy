@@ -1,18 +1,34 @@
 <template>
   <div class="inputBox shadow">
-      <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
-      <!-- <button v-on:click="addTodo">add</button> -->
-      <span class="addContainer" v-on:click="addTodo">
-          <i class="fa-solid fa-plus"></i>
-      </span>
+    <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
+    <!-- <button v-on:click="addTodo">add</button> -->
+    <span class="addContainer" v-on:click="addTodo">
+        <i class="fa-solid fa-plus"></i>
+    </span>
+
+    <Modal v-if="showModal" @close="showModal = false">
+        <!-- <h3 slot="header">경고!</h3> -->
+      <template #header>
+        <h3>
+            경고!
+            <i class="fa-solid fa-xmark closeModalBtn" @click="showModal=false"></i>
+        </h3>
+      </template>
+      <template #body>
+        아무것도 입력하지 않으셨습니다.
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue';
+
 export default {
     data: function() {
         return {
-            newTodoItem: ""
+            newTodoItem: "",
+            showModal: false
         }
     },
     methods: {
@@ -20,14 +36,19 @@ export default {
             // console.log(this.newTodoItem);
             // 저장하는 로직
             if(this.newTodoItem !== '') {
-                var obj = {completed: false, item: this.newTodoItem};
-                localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                // this.#emit('이벤트이름', 인자1, 인자2,...);
+                this.$emit('addTodoItem', this.newTodoItem);
                 this.clearInput();
+            } else {
+                this.showModal = !this.showModal;
             }
         },
         clearInput: function() {
             this.newTodoItem = '';
         }
+    },
+    components: {
+        Modal: Modal
     }
 }
 </script>
@@ -42,7 +63,7 @@ input focus {
     line-height: 50px;
     border-radius: 5px;
 }
-.inpuBox input {
+.inputBox input {
     border-style: none;
     font-size: 0.9rem;
 }
@@ -56,5 +77,8 @@ input focus {
 .addBtn {
     color: white;
     vertical-align: middle;
+}
+.closeModalBtn {
+    color: #42b983;
 }
 </style>
