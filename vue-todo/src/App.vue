@@ -18,7 +18,7 @@ import TodoFooter from './components/TodoFooter.vue'
 // var my_comp = {
 //   template: '<div>my component</div>'
 // }
-
+// ss
 // new Vue({
 //   el: '',
 //   components: {
